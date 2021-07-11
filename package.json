@@ -1,0 +1,25 @@
+{
+  "name": "lomserver",
+  "version": "1.0.0",
+  "description": "Server code for LOM Website",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon start app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shumphrey5/LOMServer.git"
+  },
+  "author": "shumphrey5",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shumphrey5/LOMServer/issues"
+  },
+  "homepage": "https://github.com/shumphrey5/LOMServer#readme"
+}
