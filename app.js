@@ -9,7 +9,7 @@ const HttpError = require("./Server/models/HTTPError");
 const { logger } = require("./Log/logger");
 const cors = require("cors");
 
-const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.pbsnn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.pbsnn.mongodb.net/LOMCompanies?retryWrites=true&w=majority`;
 
 const userRoutes = require("./Server/routes/userRoutes");
 
@@ -43,6 +43,11 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-mongoose.connect(url, { useNewUrlParser: true }).then(() => {
-  app.listen(process.env.PORT);
-});
+mongoose
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    app.listen(process.env.PORT);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
