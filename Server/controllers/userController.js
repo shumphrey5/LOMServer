@@ -3,7 +3,6 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/HTTPError");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {v4: uuidv4} = require('uuid');
 
 const Company = require("../models/companies");
 const { logger } = require("../../Log/logger");
