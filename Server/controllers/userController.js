@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
   try {
     existingUser = await Company.findOne({ email: email });
   } catch (err) {
-    const error = new HttpError("skjdf;lja;lfj;laj", 500);
+    const error = new HttpError("Could not sign up, please try again later", 500);
     return next(error);
   }
 
@@ -29,7 +29,7 @@ const signup = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
-    const error = new HttpError("her", 500);
+    const error = new HttpError("Could not sign up, please try again later", 500);
     return next(error);
   }
 
@@ -44,7 +44,7 @@ const signup = async (req, res, next) => {
     await newCompany.save();
   } catch (err) {
       console.log(err);
-    const error = new HttpError("ooga booga", 500);
+    const error = new HttpError("Could not sign up, please try again later", 500);
     return next(error);
   }
 
