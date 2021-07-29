@@ -7,14 +7,66 @@ const jwt = require("jsonwebtoken");
 const Company = require("../models/companies");
 const { logger } = require("../../Log/logger");
 
-const login = async (req, res, next) => {};
+const login = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  let existingUser;
+  try {
+    existingUser = await Company.findOne({ username: username });
+  } catch (err) {
+    const error = new HttpError(
+      "Could not sign up, please try again later",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingUser) {
+    const error = new HttpError(
+      "Company does not exist with this username",
+      401
+    );
+    return next(error);
+  }
+
+  let isValidPassword;
+  let existingUserPassword = existingUser.password;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUserPassword);
+  } catch (err) {
+    const error = new HttpError("Incorrect username or password", 401);
+    return next(error);
+  }
+
+  let token;
+  try {
+    token = jwt.sign(
+      { username: existingUser.username },
+      process.env.PRIVATE_KEY,
+      { expiresIn: "12h" }
+    );
+  } catch (err) {
+    const error = new HttpError("Logging in failed, please try again", 500);
+    return next(error);
+  }
+
+  res.json({
+    username: existingUser.username,
+    email: existingUser.email,
+    token: token,
+    name: existingUser.name,
+    phoneNumber: existingUser.phoneNumber,
+  });
+};
 
 const signup = async (req, res, next) => {
   const { name, email, phoneNumber, password } = req.body;
 
+  const username = email.split("@")[0];
+
   let existingUser;
   try {
-    existingUser = await Company.findOne({ email: email });
+    existingUser = await Company.findOne({ username: username });
   } catch (err) {
     const error = new HttpError(
       "Could not sign up, please try again later",
@@ -41,6 +93,7 @@ const signup = async (req, res, next) => {
 
   const newCompany = new Company({
     name,
+    username,
     email,
     phoneNumber,
     password: hashedPassword,
@@ -60,7 +113,7 @@ const signup = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { companyId: newCompany.id, email: newCompany.email },
+      { companyId: newCompany.id, username: newCompany.username },
       process.env.PRIVATE_KEY,
       { expiresIn: "12h" }
     );
