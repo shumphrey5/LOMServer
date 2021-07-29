@@ -11,6 +11,8 @@ router.post("/login", userController.login);
 
 router.post("/signup", userController.signup);
 
+router.post("/forgotPassword", userController.forgotPassword);
+
 router.use(checkAuth);
 
 module.exports = router;

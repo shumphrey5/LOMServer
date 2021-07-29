@@ -126,5 +126,48 @@ const signup = async (req, res, next) => {
   res.status(201).json(newCompany);
 };
 
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  const username = email.split("@")[0];
+
+  let existingUser;
+
+  try {
+    existingUser = await Company.findOne({ username: username });
+  } catch (err) {
+    const error = new HttpError(
+      "Could not find account",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingUser) {
+    const error = new HttpError("Account does not exist with that email", 401);
+    return next(error);
+  }
+
+  let link = "localhost:3000/";
+
+  let token;
+  try {
+    token = jwt.sign(
+      { username: existingUser.username },
+      process.env.PRIVATE_KEY,
+      { expiresIn: "15m" }
+    );
+  } catch (err) {
+    const error = new HttpError("Unable to send email", 500);
+    return next(error);
+  }
+
+  link = link + token;
+
+  //SEND EMAIL
+  res.json({link: link, token: token})
+};
+
 exports.login = login;
 exports.signup = signup;
+exports.forgotPassword = forgotPassword;
