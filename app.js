@@ -46,7 +46,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    app.listen(5000);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);
