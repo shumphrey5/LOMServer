@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 const HttpError = require("./Server/models/HTTPError");
-const { logger } = require("./Log/logger");
+// const { logger } = require("./Log/logger");
 const cors = require("cors");
 
 const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.pbsnn.mongodb.net/LOMCompanies?retryWrites=true&w=majority`;
@@ -31,14 +31,14 @@ app.use((error, req, res, next) => {
     return next(error);
   }
   const { username } = req.body;
-  logger.log({
+  /* logger.log({
     level: "error",
     user: username,
     message: "internal server error",
     error: "" + error,
     requestedURL: req.url,
     requestedIP: req.ip,
-  });
+  }); */
   res.status(error.code || 500);
   res.json({ message: error.message || "An unknown error occurred!" });
 });
