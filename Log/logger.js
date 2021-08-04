@@ -6,13 +6,13 @@ const logger = winston.createLogger({
     winston.format.timestamp({ format: "MM-DD-YYYY HH:mm:ss" }),
     winston.format.json()
   ),
-  transports: [
+  /* transports: [
     new winston.transports.File({ filename: process.env.COMBINED_LOG }),
     new winston.transports.File({
       filename: process.env.ERROR_LOG,
       level: "error",
     }),
-  ],
+  ], */
 });
 
 if (process.env.NODE_ENV !== "production") {
