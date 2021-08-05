@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
-const Company = require("../models/companies");
+const Company = require("../models/Companies");
 
 let transporter = nodemailer.createTransport({
   service: "Gmail",
