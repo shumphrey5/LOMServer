@@ -170,7 +170,7 @@ const forgotPassword = async (req, res, next) => {
 
   //link = link + token;
 
-  //SEND EMAIL
+  //SEND EMAIL 
   try {
     let info = transporter.sendMail({
       from: process.env.EMAIL_USERNAME,
