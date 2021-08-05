@@ -10,7 +10,7 @@ const cors = require("cors");
 
 const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.pbsnn.mongodb.net/LOMCompanies?retryWrites=true&w=majority`;
 
-const userRoutes = require("./Server/routes/userRoutes");
+const userRoutes = require("./Server/routes/UserRoutes");
 
 const app = express();
 
