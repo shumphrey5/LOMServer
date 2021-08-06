@@ -165,7 +165,7 @@ const editUser = async (req, res, next) => {
     return next(error);
   }
 };
-
+github
 const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
