@@ -135,13 +135,43 @@ const signup = async (req, res, next) => {
   res.status(201).json(newCompany);
 };
 
+const editUser = async (req, res, next) => {
+  const { name, username, email, phoneNumber, password } = req.body;
+
+  let existingUser;
+  try {
+    existingUser = await Company.findOne({ username: username });
+  } catch (err) {
+    const error = new HttpError("Could not find account", 500);
+    return next(error);
+  }
+
+  const newValues = {
+    name: name,
+    email: email,
+    phoneNumber: phoneNumber,
+  };
+
+  let result;
+  try {
+    const filter = { username: existingUser.username };
+    result = await Company.updateOne(filter, newValues);
+    res.json({ newValues });
+  } catch (err) {
+    const error = new HttpError(
+      "Could not update values, please try again later",
+      500
+    );
+    return next(error);
+  }
+};
+
 const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
   const username = email.split("@")[0];
 
   let existingUser;
-
   try {
     existingUser = await Company.findOne({ username: username });
   } catch (err) {
@@ -170,7 +200,7 @@ const forgotPassword = async (req, res, next) => {
 
   //link = link + token;
 
-  //SEND EMAIL 
+  //SEND EMAIL
   try {
     let info = transporter.sendMail({
       from: process.env.EMAIL_USERNAME,
@@ -190,4 +220,5 @@ const forgotPassword = async (req, res, next) => {
 
 exports.login = login;
 exports.signup = signup;
+exports.editUser = editUser;
 exports.forgotPassword = forgotPassword;

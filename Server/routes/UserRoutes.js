@@ -11,6 +11,8 @@ router.post("/login", userController.login);
 
 router.post("/signup", userController.signup);
 
+router.post("/editUser", userController.editUser);
+
 router.post("/forgotPassword", userController.forgotPassword);
 
 router.use(checkAuth);
